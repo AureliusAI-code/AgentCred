@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AgentCred — Cyber Trust Layer</title>
+<title>AgentCred</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
@@ -17,43 +17,40 @@ padding:0;
 box-sizing:border-box;
 }
 
-html{
-scroll-behavior:smooth;
-}
-
 body{
 font-family:'Inter',sans-serif;
-background:#02040a;
+background:#050816;
 color:white;
 overflow-x:hidden;
 }
 
-/* ======================== */
-/* CYBER BACKGROUND */
-/* ======================== */
+/* ===================== */
+/* BACKGROUND */
+/* ===================== */
 
-.bg{
+.background{
 position:fixed;
 inset:0;
-z-index:-20;
+z-index:-10;
 background:
-radial-gradient(circle at top left,#00f0ff25,transparent 30%),
-radial-gradient(circle at bottom right,#8b5cf625,transparent 30%),
-#02040a;
+radial-gradient(circle at top left,#00e5ff20,transparent 30%),
+radial-gradient(circle at bottom right,#7c3aed20,transparent 30%),
+#050816;
 overflow:hidden;
 }
 
-.grid{
+.background::before{
+content:"";
 position:absolute;
 inset:0;
 background-image:
-linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-background-size:60px 60px;
-transform:perspective(1000px) rotateX(75deg);
+linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+background-size:70px 70px;
+opacity:.35;
+transform:perspective(1200px) rotateX(78deg);
 transform-origin:top;
-animation:gridMove 18s linear infinite;
-opacity:.4;
+animation:gridMove 16s linear infinite;
 }
 
 @keyframes gridMove{
@@ -61,45 +58,13 @@ from{
 background-position:0 0;
 }
 to{
-background-position:0 60px;
+background-position:0 70px;
 }
 }
 
-.glow{
-position:absolute;
-width:700px;
-height:700px;
-border-radius:50%;
-filter:blur(140px);
-opacity:.16;
-animation:float 8s ease-in-out infinite;
-}
-
-.glow.one{
-background:#00e5ff;
-top:-300px;
-left:-300px;
-}
-
-.glow.two{
-background:#7c3aed;
-bottom:-300px;
-right:-300px;
-animation-delay:3s;
-}
-
-@keyframes float{
-0%,100%{
-transform:translateY(0px);
-}
-50%{
-transform:translateY(40px);
-}
-}
-
-/* ======================== */
+/* ===================== */
 /* NAVBAR */
-/* ======================== */
+/* ===================== */
 
 nav{
 position:fixed;
@@ -111,7 +76,7 @@ justify-content:space-between;
 align-items:center;
 z-index:999;
 backdrop-filter:blur(18px);
-background:rgba(2,4,10,.55);
+background:rgba(5,8,22,.55);
 border-bottom:1px solid rgba(255,255,255,.05);
 }
 
@@ -124,34 +89,33 @@ background:linear-gradient(to right,#00e5ff,#8b5cf6);
 -webkit-text-fill-color:transparent;
 }
 
-.nav-links{
+.nav-right{
 display:flex;
-gap:34px;
 align-items:center;
+gap:18px;
 }
 
-.nav-links a{
+.nav-right a{
 text-decoration:none;
-color:#b6c2d9;
+color:#cbd5e1;
 font-size:15px;
 transition:.3s;
 }
 
-.nav-links a:hover{
+.nav-right a:hover{
 color:white;
 }
 
-.fc-btn{
+.fc{
 padding:13px 20px;
-border-radius:14px;
-border:1px solid rgba(0,229,255,.25);
-background:rgba(0,229,255,.08);
-box-shadow:0 0 25px rgba(0,229,255,.08);
+border-radius:16px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
 }
 
-/* ======================== */
+/* ===================== */
 /* HERO */
-/* ======================== */
+/* ===================== */
 
 .hero{
 min-height:100vh;
@@ -159,11 +123,15 @@ padding:170px 7% 100px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:80px;
+gap:60px;
+position:relative;
 }
+
+/* LEFT */
 
 .hero-left{
 max-width:700px;
+z-index:2;
 }
 
 .badge{
@@ -172,19 +140,20 @@ align-items:center;
 gap:10px;
 padding:12px 18px;
 border-radius:999px;
-border:1px solid rgba(0,229,255,.18);
-background:rgba(0,229,255,.06);
+background:rgba(0,229,255,.08);
+border:1px solid rgba(0,229,255,.16);
+font-size:13px;
+letter-spacing:1px;
 margin-bottom:30px;
-font-size:14px;
-color:#cbe8ff;
-backdrop-filter:blur(14px);
+color:#b9f7ff;
+backdrop-filter:blur(12px);
 }
 
 .hero h1{
-font-size:96px;
-line-height:.92;
+font-size:110px;
+line-height:.9;
 font-weight:900;
-letter-spacing:-5px;
+letter-spacing:-6px;
 margin-bottom:28px;
 }
 
@@ -209,123 +178,114 @@ flex-wrap:wrap;
 }
 
 .primary-btn{
-padding:18px 30px;
+padding:18px 34px;
 border-radius:18px;
 background:linear-gradient(to right,#00e5ff,#8b5cf6);
-text-decoration:none;
 font-weight:700;
+text-decoration:none;
 color:white;
 box-shadow:
-0 0 40px rgba(0,229,255,.28),
-0 0 70px rgba(139,92,246,.18);
+0 0 40px rgba(0,229,255,.2),
+0 0 80px rgba(139,92,246,.15);
 transition:.35s;
 }
 
 .primary-btn:hover{
-transform:translateY(-3px) scale(1.02);
+transform:translateY(-4px);
 }
 
 .secondary-btn{
-padding:18px 30px;
+padding:18px 34px;
 border-radius:18px;
 border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.03);
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(14px);
 text-decoration:none;
 color:white;
 transition:.3s;
 }
 
 .secondary-btn:hover{
-background:rgba(255,255,255,.06);
+background:rgba(255,255,255,.07);
 }
 
-/* ======================== */
-/* CYBER ROBOT */
-/* ======================== */
+/* RIGHT */
 
 .hero-right{
 position:relative;
+width:620px;
+height:700px;
 display:flex;
-justify-content:center;
 align-items:center;
+justify-content:center;
 }
 
-.robot-wrap{
-position:relative;
+/* CIRCLE */
+
+.circle{
+position:absolute;
 width:520px;
-height:650px;
-border-radius:40px;
-overflow:hidden;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
-box-shadow:
-0 0 60px rgba(0,229,255,.12),
-0 0 120px rgba(139,92,246,.08),
-0 30px 100px rgba(0,0,0,.5);
-}
-
-.robot-wrap::before{
-content:"";
-position:absolute;
-inset:0;
+height:520px;
+border-radius:50%;
 background:
-linear-gradient(
-to bottom right,
-rgba(255,255,255,.08),
-transparent
-);
-z-index:2;
+radial-gradient(circle,#00e5ff25,transparent 70%);
+filter:blur(40px);
+animation:orb 7s ease-in-out infinite;
 }
 
-.robot-wrap::after{
-content:"";
-position:absolute;
-inset:0;
-background:
-linear-gradient(
-180deg,
-transparent,
-rgba(0,0,0,.2)
-);
-z-index:2;
+@keyframes orb{
+0%,100%{
+transform:scale(1);
+}
+50%{
+transform:scale(1.08);
+}
 }
 
-.robot-wrap img{
+/* ROBOT */
+
+.robot{
+position:relative;
 width:100%;
 height:100%;
-object-fit:cover;
-filter:contrast(1.08) saturate(1.1);
+object-fit:contain;
+z-index:2;
+filter:
+drop-shadow(0 0 80px rgba(0,229,255,.18));
+animation:floatRobot 6s ease-in-out infinite;
 }
 
-/* FLOATING PANELS */
+@keyframes floatRobot{
+0%,100%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(-20px);
+}
+}
 
-.panel{
+/* GLASS CARDS */
+
+.glass-card{
 position:absolute;
-padding:20px 24px;
+padding:22px 26px;
 border-radius:24px;
-background:rgba(7,12,24,.82);
-border:1px solid rgba(0,229,255,.15);
-backdrop-filter:blur(18px);
-box-shadow:0 10px 50px rgba(0,0,0,.45);
+background:rgba(9,14,25,.72);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+box-shadow:
+0 20px 60px rgba(0,0,0,.45);
+z-index:5;
 }
 
-.panel.one{
-top:70px;
-left:-50px;
-}
-
-.panel.two{
-bottom:80px;
-right:-40px;
-}
-
-.panel h4{
+.glass-card span{
 font-size:13px;
 color:#8fa3bf;
+display:block;
 margin-bottom:10px;
 }
 
-.panel p{
+.glass-card h3{
 font-size:34px;
 font-weight:800;
 background:linear-gradient(to right,#00e5ff,#8b5cf6);
@@ -333,12 +293,60 @@ background:linear-gradient(to right,#00e5ff,#8b5cf6);
 -webkit-text-fill-color:transparent;
 }
 
-/* ======================== */
-/* FEATURES */
-/* ======================== */
+.card1{
+top:100px;
+left:-40px;
+}
 
-.section{
-padding:40px 7% 130px;
+.card2{
+top:260px;
+right:-20px;
+}
+
+.card3{
+bottom:90px;
+left:40px;
+}
+
+/* ===================== */
+/* TRUST BAR */
+/* ===================== */
+
+.trust{
+padding:0 7% 120px;
+}
+
+.trust-box{
+padding:36px;
+border-radius:32px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.06);
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+flex-wrap:wrap;
+backdrop-filter:blur(16px);
+}
+
+.trust-item h2{
+font-size:48px;
+margin-bottom:8px;
+background:linear-gradient(to right,#00e5ff,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.trust-item p{
+color:#8fa3bf;
+}
+
+/* ===================== */
+/* FEATURES */
+/* ===================== */
+
+.features-section{
+padding:0 7% 130px;
 }
 
 .section-title{
@@ -347,7 +355,7 @@ margin-bottom:70px;
 }
 
 .section-title h2{
-font-size:72px;
+font-size:76px;
 line-height:1;
 font-weight:900;
 letter-spacing:-4px;
@@ -355,7 +363,7 @@ margin-bottom:22px;
 }
 
 .section-title p{
-font-size:19px;
+font-size:20px;
 line-height:1.9;
 color:#8fa3bf;
 }
@@ -378,7 +386,7 @@ overflow:hidden;
 
 .feature:hover{
 transform:translateY(-10px);
-border-color:rgba(0,229,255,.22);
+border-color:rgba(0,229,255,.2);
 box-shadow:
 0 0 40px rgba(0,229,255,.08);
 }
@@ -411,12 +419,10 @@ margin-bottom:26px;
 background:
 linear-gradient(
 135deg,
-rgba(0,229,255,.16),
+rgba(0,229,255,.15),
 rgba(139,92,246,.18)
 );
 border:1px solid rgba(255,255,255,.08);
-box-shadow:
-0 0 30px rgba(0,229,255,.08);
 }
 
 .feature h3{
@@ -429,67 +435,9 @@ line-height:1.9;
 color:#8fa3bf;
 }
 
-/* ======================== */
-/* CTA */
-/* ======================== */
-
-.cta{
-padding:0 7% 130px;
-}
-
-.cta-box{
-padding:90px;
-border-radius:42px;
-background:
-linear-gradient(
-135deg,
-rgba(0,229,255,.08),
-rgba(139,92,246,.12)
-);
-border:1px solid rgba(255,255,255,.07);
-text-align:center;
-position:relative;
-overflow:hidden;
-}
-
-.cta-box::before{
-content:"";
-position:absolute;
-inset:0;
-background:
-radial-gradient(circle at top,#00e5ff18,transparent 40%);
-}
-
-.cta-box h2{
-font-size:78px;
-line-height:1;
-font-weight:900;
-letter-spacing:-4px;
-margin-bottom:24px;
-position:relative;
-}
-
-.cta-box p{
-max-width:760px;
-margin:auto;
-font-size:20px;
-line-height:1.9;
-color:#c5d3e5;
-position:relative;
-}
-
-.cta-buttons{
-margin-top:40px;
-display:flex;
-justify-content:center;
-gap:18px;
-flex-wrap:wrap;
-position:relative;
-}
-
-/* ======================== */
+/* ===================== */
 /* FOOTER */
-/* ======================== */
+/* ===================== */
 
 footer{
 padding:40px 7%;
@@ -502,9 +450,9 @@ gap:20px;
 color:#7f92ac;
 }
 
-/* ======================== */
+/* ===================== */
 /* MOBILE */
-/* ======================== */
+/* ===================== */
 
 @media(max-width:1100px){
 
@@ -514,25 +462,21 @@ padding-top:150px;
 }
 
 .hero h1{
-font-size:68px;
+font-size:70px;
 }
 
-.robot-wrap{
+.hero-right{
 width:100%;
 max-width:520px;
-height:560px;
-}
-
-.nav-links{
-display:none;
+height:540px;
 }
 
 .section-title h2{
 font-size:52px;
 }
 
-.cta-box h2{
-font-size:54px;
+.nav-right{
+display:none;
 }
 
 }
@@ -540,7 +484,7 @@ font-size:54px;
 @media(max-width:700px){
 
 .hero h1{
-font-size:52px;
+font-size:54px;
 }
 
 .hero p{
@@ -551,19 +495,7 @@ font-size:17px;
 font-size:42px;
 }
 
-.cta-box{
-padding:55px 28px;
-}
-
-.cta-box h2{
-font-size:42px;
-}
-
-.robot-wrap{
-height:480px;
-}
-
-.panel{
+.glass-card{
 display:none;
 }
 
@@ -574,11 +506,7 @@ display:none;
 
 <body>
 
-<div class="bg">
-<div class="grid"></div>
-<div class="glow one"></div>
-<div class="glow two"></div>
-</div>
+<div class="background"></div>
 
 <!-- NAVBAR -->
 
@@ -588,16 +516,15 @@ display:none;
 AgentCred
 </div>
 
-<div class="nav-links">
+<div class="nav-right">
 
 <a href="#">Infrastructure</a>
-<a href="#">Signals</a>
-<a href="#">Developers</a>
 <a href="#">Security</a>
+<a href="#">Developers</a>
 
 <a href="https://farcaster.xyz/derion.eth"
 target="_blank"
-class="fc-btn">
+class="fc">
 @derion.eth ↗
 </a>
 
@@ -612,20 +539,20 @@ class="fc-btn">
 <div class="hero-left">
 
 <div class="badge">
-✦ CYBER TRUST INFRASTRUCTURE
+✦ TRUST INFRASTRUCTURE FOR AI AGENTS
 </div>
 
 <h1>
-Trust Layer<br>
-for <span>AI Agents</span>
+The Future<br>
+of <span>Digital Trust</span>
 </h1>
 
 <p>
-AgentCred is a cyber-native credibility infrastructure
-for autonomous systems, humans, and AI agents.
-Verify identity, operational proof,
-wallet reputation, and trusted execution
-inside one unified intelligence layer.
+AgentCred powers credibility infrastructure
+for autonomous agents, AI systems,
+and onchain identities.
+Built for verification, operational proof,
+and intelligent coordination at internet scale.
 </p>
 
 <div class="hero-buttons">
@@ -635,7 +562,7 @@ Launch Platform
 </a>
 
 <a href="#" class="secondary-btn">
-View Framework
+View Documentation
 </a>
 
 </div>
@@ -646,21 +573,56 @@ View Framework
 
 <div class="hero-right">
 
-<div class="robot-wrap">
+<div class="circle"></div>
 
-<img src="https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1400&auto=format&fit=crop"
-alt="Cyber Robot">
+<img
+class="robot"
+src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1400&auto=format&fit=crop"
+alt="AI Robot">
+
+<div class="glass-card card1">
+<span>Trust Score</span>
+<h3>98/100</h3>
+</div>
+
+<div class="glass-card card2">
+<span>API Uptime</span>
+<h3>99.98%</h3>
+</div>
+
+<div class="glass-card card3">
+<span>Verified Agents</span>
+<h3>12.8K</h3>
+</div>
 
 </div>
 
-<div class="panel one">
-<h4>TRUST SCORE</h4>
-<p>98/100</p>
+</section>
+
+<!-- TRUST -->
+
+<section class="trust">
+
+<div class="trust-box">
+
+<div class="trust-item">
+<h2>12K+</h2>
+<p>Verified AI Agents</p>
 </div>
 
-<div class="panel two">
-<h4>AGENT STATUS</h4>
-<p>ACTIVE</p>
+<div class="trust-item">
+<h2>99.98%</h2>
+<p>Operational Uptime</p>
+</div>
+
+<div class="trust-item">
+<h2>2.4M</h2>
+<p>Onchain Verifications</p>
+</div>
+
+<div class="trust-item">
+<h2>24/7</h2>
+<p>Autonomous Monitoring</p>
 </div>
 
 </div>
@@ -669,18 +631,18 @@ alt="Cyber Robot">
 
 <!-- FEATURES -->
 
-<section class="section">
+<section class="features-section">
 
 <div class="section-title">
 
 <h2>
 Built For The<br>
-Cyber Economy
+Agent Economy
 </h2>
 
 <p>
 Identity credibility meets operational credibility.
-AgentCred powers transparent trust systems
+AgentCred creates transparent trust systems
 for AI-native economies and autonomous coordination.
 </p>
 
@@ -736,40 +698,6 @@ Onchain Signals
 Payment history, staking credibility,
 and decentralized reputation tracking.
 </p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- CTA -->
-
-<section class="cta">
-
-<div class="cta-box">
-
-<h2>
-Future Trust<br>
-Starts Here
-</h2>
-
-<p>
-AgentCred creates premium cyber credibility infrastructure
-for humans, AI agents, and autonomous systems.
-</p>
-
-<div class="cta-buttons">
-
-<a href="#" class="primary-btn">
-Get Started
-</a>
-
-<a href="https://farcaster.xyz/derion.eth"
-target="_blank"
-class="secondary-btn">
-Follow @derion.eth
-</a>
 
 </div>
 
