@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>AgentCred</title>
+<title>AgentCred — Cyber Trust Network</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -17,54 +17,92 @@ padding:0;
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 font-family:'Inter',sans-serif;
-background:#050816;
+background:#02040a;
 color:white;
 overflow-x:hidden;
 }
 
-/* ===================== */
+/* ========================= */
 /* BACKGROUND */
-/* ===================== */
+/* ========================= */
 
 .background{
 position:fixed;
 inset:0;
-z-index:-10;
+z-index:-20;
 background:
-radial-gradient(circle at top left,#00e5ff20,transparent 30%),
-radial-gradient(circle at bottom right,#7c3aed20,transparent 30%),
-#050816;
+radial-gradient(circle at top left,#00ffb31c,transparent 35%),
+radial-gradient(circle at bottom right,#00c3ff18,transparent 35%),
+#02040a;
 overflow:hidden;
 }
 
-.background::before{
-content:"";
+/* GRID */
+
+.grid{
 position:absolute;
 inset:0;
 background-image:
-linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-background-size:70px 70px;
-opacity:.35;
-transform:perspective(1200px) rotateX(78deg);
-transform-origin:top;
-animation:gridMove 16s linear infinite;
+linear-gradient(rgba(0,255,179,.045) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,255,179,.045) 1px, transparent 1px);
+background-size:60px 60px;
+opacity:.5;
+mask-image:linear-gradient(to bottom, rgba(255,255,255,.7), transparent);
+animation:gridMove 14s linear infinite;
 }
 
 @keyframes gridMove{
 from{
-background-position:0 0;
+transform:translateY(0px);
 }
 to{
-background-position:0 70px;
+transform:translateY(60px);
 }
 }
 
-/* ===================== */
+/* GLOW */
+
+.glow{
+position:absolute;
+width:700px;
+height:700px;
+border-radius:50%;
+filter:blur(140px);
+opacity:.13;
+animation:floatGlow 8s ease-in-out infinite;
+}
+
+.glow.one{
+background:#00ffb3;
+top:-300px;
+left:-250px;
+}
+
+.glow.two{
+background:#00c3ff;
+bottom:-300px;
+right:-250px;
+animation-delay:2s;
+}
+
+@keyframes floatGlow{
+0%,100%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(35px);
+}
+}
+
+/* ========================= */
 /* NAVBAR */
-/* ===================== */
+/* ========================= */
 
 nav{
 position:fixed;
@@ -75,47 +113,50 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 z-index:999;
-backdrop-filter:blur(18px);
-background:rgba(5,8,22,.55);
-border-bottom:1px solid rgba(255,255,255,.05);
+backdrop-filter:blur(16px);
+background:rgba(2,4,10,.7);
+border-bottom:1px solid rgba(0,255,179,.08);
 }
 
 .logo{
-font-size:32px;
-font-weight:900;
+font-family:'Space Grotesk',sans-serif;
+font-size:34px;
+font-weight:700;
 letter-spacing:-1px;
-background:linear-gradient(to right,#00e5ff,#8b5cf6);
+background:linear-gradient(to right,#00ffb3,#00c3ff);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
-.nav-right{
+.nav-links{
 display:flex;
 align-items:center;
-gap:18px;
+gap:34px;
 }
 
-.nav-right a{
+.nav-links a{
 text-decoration:none;
-color:#cbd5e1;
-font-size:15px;
+color:#93a4b8;
+font-size:14px;
+letter-spacing:.4px;
 transition:.3s;
 }
 
-.nav-right a:hover{
+.nav-links a:hover{
 color:white;
 }
 
-.fc{
+.fc-btn{
 padding:13px 20px;
-border-radius:16px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
+border-radius:14px;
+border:1px solid rgba(0,255,179,.18);
+background:rgba(0,255,179,.05);
+box-shadow:0 0 25px rgba(0,255,179,.08);
 }
 
-/* ===================== */
+/* ========================= */
 /* HERO */
-/* ===================== */
+/* ========================= */
 
 .hero{
 min-height:100vh;
@@ -123,14 +164,14 @@ padding:170px 7% 100px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:60px;
+gap:70px;
 position:relative;
 }
 
 /* LEFT */
 
 .hero-left{
-max-width:700px;
+max-width:680px;
 z-index:2;
 }
 
@@ -140,25 +181,26 @@ align-items:center;
 gap:10px;
 padding:12px 18px;
 border-radius:999px;
-background:rgba(0,229,255,.08);
-border:1px solid rgba(0,229,255,.16);
+border:1px solid rgba(0,255,179,.16);
+background:rgba(0,255,179,.05);
+margin-bottom:30px;
 font-size:13px;
 letter-spacing:1px;
-margin-bottom:30px;
-color:#b9f7ff;
-backdrop-filter:blur(12px);
+color:#c9fff0;
+backdrop-filter:blur(14px);
 }
 
 .hero h1{
-font-size:110px;
-line-height:.9;
-font-weight:900;
-letter-spacing:-6px;
+font-family:'Space Grotesk',sans-serif;
+font-size:108px;
+line-height:.92;
+font-weight:700;
+letter-spacing:-5px;
 margin-bottom:28px;
 }
 
 .hero h1 span{
-background:linear-gradient(to right,#00e5ff,#8b5cf6);
+background:linear-gradient(to right,#00ffb3,#00c3ff);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
@@ -166,8 +208,8 @@ background:linear-gradient(to right,#00e5ff,#8b5cf6);
 .hero p{
 font-size:20px;
 line-height:1.9;
-color:#8fa3bf;
-max-width:620px;
+color:#7f94a8;
+max-width:610px;
 }
 
 .hero-buttons{
@@ -180,13 +222,13 @@ flex-wrap:wrap;
 .primary-btn{
 padding:18px 34px;
 border-radius:18px;
-background:linear-gradient(to right,#00e5ff,#8b5cf6);
-font-weight:700;
+background:linear-gradient(to right,#00ffb3,#00c3ff);
 text-decoration:none;
-color:white;
+font-weight:700;
+color:#031018;
 box-shadow:
-0 0 40px rgba(0,229,255,.2),
-0 0 80px rgba(139,92,246,.15);
+0 0 40px rgba(0,255,179,.18),
+0 0 70px rgba(0,195,255,.12);
 transition:.35s;
 }
 
@@ -197,8 +239,8 @@ transform:translateY(-4px);
 .secondary-btn{
 padding:18px 34px;
 border-radius:18px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.04);
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.07);
 backdrop-filter:blur(14px);
 text-decoration:none;
 color:white;
@@ -206,39 +248,50 @@ transition:.3s;
 }
 
 .secondary-btn:hover{
-background:rgba(255,255,255,.07);
+background:rgba(255,255,255,.06);
 }
 
-/* RIGHT */
+/* ========================= */
+/* RIGHT SIDE */
+/* ========================= */
 
 .hero-right{
 position:relative;
 width:620px;
-height:700px;
+height:720px;
 display:flex;
 align-items:center;
 justify-content:center;
 }
 
-/* CIRCLE */
+/* CYBER CIRCLE */
 
-.circle{
+.cyber-circle{
 position:absolute;
 width:520px;
 height:520px;
 border-radius:50%;
-background:
-radial-gradient(circle,#00e5ff25,transparent 70%);
-filter:blur(40px);
-animation:orb 7s ease-in-out infinite;
+border:1px solid rgba(0,255,179,.12);
+box-shadow:
+0 0 80px rgba(0,255,179,.08),
+inset 0 0 80px rgba(0,255,179,.05);
+animation:rotateCircle 18s linear infinite;
 }
 
-@keyframes orb{
-0%,100%{
-transform:scale(1);
+.cyber-circle::before{
+content:"";
+position:absolute;
+inset:40px;
+border-radius:50%;
+border:1px dashed rgba(0,195,255,.18);
 }
-50%{
-transform:scale(1.08);
+
+@keyframes rotateCircle{
+from{
+transform:rotate(0deg);
+}
+to{
+transform:rotate(360deg);
 }
 }
 
@@ -251,11 +304,11 @@ height:100%;
 object-fit:contain;
 z-index:2;
 filter:
-drop-shadow(0 0 80px rgba(0,229,255,.18));
-animation:floatRobot 6s ease-in-out infinite;
+drop-shadow(0 0 80px rgba(0,255,179,.15));
+animation:robotFloat 5s ease-in-out infinite;
 }
 
-@keyframes floatRobot{
+@keyframes robotFloat{
 0%,100%{
 transform:translateY(0px);
 }
@@ -264,89 +317,90 @@ transform:translateY(-20px);
 }
 }
 
-/* GLASS CARDS */
+/* FLOATING PANELS */
 
-.glass-card{
+.panel{
 position:absolute;
 padding:22px 26px;
 border-radius:24px;
-background:rgba(9,14,25,.72);
-border:1px solid rgba(255,255,255,.08);
+background:rgba(7,12,20,.78);
+border:1px solid rgba(0,255,179,.12);
 backdrop-filter:blur(20px);
 box-shadow:
 0 20px 60px rgba(0,0,0,.45);
 z-index:5;
 }
 
-.glass-card span{
-font-size:13px;
-color:#8fa3bf;
+.panel span{
 display:block;
+font-size:12px;
+letter-spacing:1px;
+color:#7f94a8;
 margin-bottom:10px;
 }
 
-.glass-card h3{
+.panel h3{
 font-size:34px;
 font-weight:800;
-background:linear-gradient(to right,#00e5ff,#8b5cf6);
+background:linear-gradient(to right,#00ffb3,#00c3ff);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
-.card1{
-top:100px;
+.panel.one{
+top:120px;
 left:-40px;
 }
 
-.card2{
-top:260px;
+.panel.two{
+top:320px;
 right:-20px;
 }
 
-.card3{
-bottom:90px;
+.panel.three{
+bottom:120px;
 left:40px;
 }
 
-/* ===================== */
-/* TRUST BAR */
-/* ===================== */
+/* ========================= */
+/* STATS */
+/* ========================= */
 
-.trust{
+.stats{
 padding:0 7% 120px;
 }
 
-.trust-box{
-padding:36px;
-border-radius:32px;
-background:rgba(255,255,255,.04);
+.stats-box{
+padding:38px;
+border-radius:34px;
+background:rgba(255,255,255,.03);
 border:1px solid rgba(255,255,255,.06);
 display:flex;
 justify-content:space-between;
-align-items:center;
 gap:20px;
 flex-wrap:wrap;
 backdrop-filter:blur(16px);
 }
 
-.trust-item h2{
-font-size:48px;
-margin-bottom:8px;
-background:linear-gradient(to right,#00e5ff,#8b5cf6);
+.stat h2{
+font-size:52px;
+margin-bottom:10px;
+font-family:'Space Grotesk',sans-serif;
+background:linear-gradient(to right,#00ffb3,#00c3ff);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
-.trust-item p{
-color:#8fa3bf;
+.stat p{
+color:#7f94a8;
 }
 
-/* ===================== */
+/* ========================= */
 /* FEATURES */
-/* ===================== */
+/* ========================= */
 
 .features-section{
-padding:0 7% 130px;
+padding:0 7% 140px;
 }
 
 .section-title{
@@ -355,27 +409,28 @@ margin-bottom:70px;
 }
 
 .section-title h2{
-font-size:76px;
+font-family:'Space Grotesk',sans-serif;
+font-size:78px;
 line-height:1;
-font-weight:900;
+font-weight:700;
 letter-spacing:-4px;
-margin-bottom:22px;
+margin-bottom:24px;
 }
 
 .section-title p{
 font-size:20px;
 line-height:1.9;
-color:#8fa3bf;
+color:#7f94a8;
 }
 
 .features{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:26px;
+gap:28px;
 }
 
 .feature{
-padding:36px;
+padding:38px;
 border-radius:34px;
 background:rgba(255,255,255,.03);
 border:1px solid rgba(255,255,255,.06);
@@ -386,9 +441,9 @@ overflow:hidden;
 
 .feature:hover{
 transform:translateY(-10px);
-border-color:rgba(0,229,255,.2);
+border-color:rgba(0,255,179,.18);
 box-shadow:
-0 0 40px rgba(0,229,255,.08);
+0 0 40px rgba(0,255,179,.08);
 }
 
 .feature::before{
@@ -398,7 +453,7 @@ top:0;
 left:0;
 width:100%;
 height:1px;
-background:linear-gradient(to right,transparent,#00e5ff,transparent);
+background:linear-gradient(to right,transparent,#00ffb3,transparent);
 opacity:0;
 transition:.3s;
 }
@@ -414,13 +469,13 @@ border-radius:24px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:32px;
+font-size:30px;
 margin-bottom:26px;
 background:
 linear-gradient(
 135deg,
-rgba(0,229,255,.15),
-rgba(139,92,246,.18)
+rgba(0,255,179,.12),
+rgba(0,195,255,.15)
 );
 border:1px solid rgba(255,255,255,.08);
 }
@@ -428,16 +483,17 @@ border:1px solid rgba(255,255,255,.08);
 .feature h3{
 font-size:30px;
 margin-bottom:18px;
+font-family:'Space Grotesk',sans-serif;
 }
 
 .feature p{
 line-height:1.9;
-color:#8fa3bf;
+color:#7f94a8;
 }
 
-/* ===================== */
+/* ========================= */
 /* FOOTER */
-/* ===================== */
+/* ========================= */
 
 footer{
 padding:40px 7%;
@@ -447,12 +503,12 @@ justify-content:space-between;
 align-items:center;
 flex-wrap:wrap;
 gap:20px;
-color:#7f92ac;
+color:#6d8094;
 }
 
-/* ===================== */
+/* ========================= */
 /* MOBILE */
-/* ===================== */
+/* ========================= */
 
 @media(max-width:1100px){
 
@@ -462,20 +518,20 @@ padding-top:150px;
 }
 
 .hero h1{
-font-size:70px;
+font-size:72px;
 }
 
 .hero-right{
 width:100%;
 max-width:520px;
-height:540px;
+height:560px;
 }
 
 .section-title h2{
-font-size:52px;
+font-size:54px;
 }
 
-.nav-right{
+.nav-links{
 display:none;
 }
 
@@ -495,7 +551,7 @@ font-size:17px;
 font-size:42px;
 }
 
-.glass-card{
+.panel{
 display:none;
 }
 
@@ -506,7 +562,11 @@ display:none;
 
 <body>
 
-<div class="background"></div>
+<div class="background">
+<div class="grid"></div>
+<div class="glow one"></div>
+<div class="glow two"></div>
+</div>
 
 <!-- NAVBAR -->
 
@@ -516,15 +576,16 @@ display:none;
 AgentCred
 </div>
 
-<div class="nav-right">
+<div class="nav-links">
 
 <a href="#">Infrastructure</a>
 <a href="#">Security</a>
 <a href="#">Developers</a>
+<a href="#">Protocol</a>
 
 <a href="https://farcaster.xyz/derion.eth"
 target="_blank"
-class="fc">
+class="fc-btn">
 @derion.eth ↗
 </a>
 
@@ -539,30 +600,30 @@ class="fc">
 <div class="hero-left">
 
 <div class="badge">
-✦ TRUST INFRASTRUCTURE FOR AI AGENTS
+✦ CYBER TRUST PROTOCOL
 </div>
 
 <h1>
-The Future<br>
-of <span>Digital Trust</span>
+Trust<br>
+for the <span>Agent Grid</span>
 </h1>
 
 <p>
-AgentCred powers credibility infrastructure
-for autonomous agents, AI systems,
+AgentCred is a cyber-native infrastructure
+for AI agents, autonomous systems,
 and onchain identities.
 Built for verification, operational proof,
-and intelligent coordination at internet scale.
+and decentralized trust at internet scale.
 </p>
 
 <div class="hero-buttons">
 
 <a href="#" class="primary-btn">
-Launch Platform
+Launch Network
 </a>
 
 <a href="#" class="secondary-btn">
-View Documentation
+View Protocol
 </a>
 
 </div>
@@ -573,25 +634,25 @@ View Documentation
 
 <div class="hero-right">
 
-<div class="circle"></div>
+<div class="cyber-circle"></div>
 
 <img
 class="robot"
-src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1400&auto=format&fit=crop"
-alt="AI Robot">
+src="https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1400&auto=format&fit=crop"
+alt="Cyber Robot">
 
-<div class="glass-card card1">
-<span>Trust Score</span>
+<div class="panel one">
+<span>TRUST SCORE</span>
 <h3>98/100</h3>
 </div>
 
-<div class="glass-card card2">
-<span>API Uptime</span>
+<div class="panel two">
+<span>NETWORK UPTIME</span>
 <h3>99.98%</h3>
 </div>
 
-<div class="glass-card card3">
-<span>Verified Agents</span>
+<div class="panel three">
+<span>VERIFIED AGENTS</span>
 <h3>12.8K</h3>
 </div>
 
@@ -599,30 +660,30 @@ alt="AI Robot">
 
 </section>
 
-<!-- TRUST -->
+<!-- STATS -->
 
-<section class="trust">
+<section class="stats">
 
-<div class="trust-box">
+<div class="stats-box">
 
-<div class="trust-item">
+<div class="stat">
 <h2>12K+</h2>
-<p>Verified AI Agents</p>
+<p>Verified Agents</p>
 </div>
 
-<div class="trust-item">
-<h2>99.98%</h2>
-<p>Operational Uptime</p>
+<div class="stat">
+<h2>24/7</h2>
+<p>Autonomous Monitoring</p>
 </div>
 
-<div class="trust-item">
+<div class="stat">
 <h2>2.4M</h2>
 <p>Onchain Verifications</p>
 </div>
 
-<div class="trust-item">
-<h2>24/7</h2>
-<p>Autonomous Monitoring</p>
+<div class="stat">
+<h2>99.98%</h2>
+<p>Protocol Uptime</p>
 </div>
 
 </div>
@@ -637,12 +698,12 @@ alt="AI Robot">
 
 <h2>
 Built For The<br>
-Agent Economy
+Cyber Economy
 </h2>
 
 <p>
 Identity credibility meets operational credibility.
-AgentCred creates transparent trust systems
+AgentCred powers transparent trust systems
 for AI-native economies and autonomous coordination.
 </p>
 
