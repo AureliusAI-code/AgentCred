@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AgentCred</title>
+
+<title>AgentCred — Cyber Trust Layer</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
@@ -16,23 +17,29 @@ padding:0;
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 font-family:'Inter',sans-serif;
-background:#050816;
+background:#02040a;
 color:white;
 overflow-x:hidden;
 }
 
-/* BACKGROUND */
+/* ======================== */
+/* CYBER BACKGROUND */
+/* ======================== */
 
 .bg{
 position:fixed;
 inset:0;
-z-index:-10;
+z-index:-20;
 background:
-radial-gradient(circle at top left,#2563eb33,transparent 30%),
-radial-gradient(circle at bottom right,#7c3aed33,transparent 30%),
-#050816;
+radial-gradient(circle at top left,#00f0ff25,transparent 30%),
+radial-gradient(circle at bottom right,#8b5cf625,transparent 30%),
+#02040a;
 overflow:hidden;
 }
 
@@ -43,40 +50,76 @@ background-image:
 linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
 linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
 background-size:60px 60px;
-animation:gridMove 20s linear infinite;
+transform:perspective(1000px) rotateX(75deg);
+transform-origin:top;
+animation:gridMove 18s linear infinite;
 opacity:.4;
 }
 
 @keyframes gridMove{
 from{
-transform:translateY(0px);
+background-position:0 0;
 }
 to{
-transform:translateY(60px);
+background-position:0 60px;
 }
 }
 
+.glow{
+position:absolute;
+width:700px;
+height:700px;
+border-radius:50%;
+filter:blur(140px);
+opacity:.16;
+animation:float 8s ease-in-out infinite;
+}
+
+.glow.one{
+background:#00e5ff;
+top:-300px;
+left:-300px;
+}
+
+.glow.two{
+background:#7c3aed;
+bottom:-300px;
+right:-300px;
+animation-delay:3s;
+}
+
+@keyframes float{
+0%,100%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(40px);
+}
+}
+
+/* ======================== */
 /* NAVBAR */
+/* ======================== */
 
 nav{
 position:fixed;
 top:0;
 width:100%;
-padding:26px 7%;
+padding:24px 7%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-backdrop-filter:blur(14px);
-background:rgba(5,8,22,.6);
-border-bottom:1px solid rgba(255,255,255,.05);
 z-index:999;
+backdrop-filter:blur(18px);
+background:rgba(2,4,10,.55);
+border-bottom:1px solid rgba(255,255,255,.05);
 }
 
 .logo{
-font-size:30px;
+font-size:32px;
 font-weight:900;
 letter-spacing:-1px;
-background:linear-gradient(to right,#60a5fa,#a78bfa);
+background:linear-gradient(to right,#00e5ff,#8b5cf6);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
@@ -89,7 +132,7 @@ align-items:center;
 
 .nav-links a{
 text-decoration:none;
-color:#cbd5e1;
+color:#b6c2d9;
 font-size:15px;
 transition:.3s;
 }
@@ -101,23 +144,26 @@ color:white;
 .fc-btn{
 padding:13px 20px;
 border-radius:14px;
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.08);
+border:1px solid rgba(0,229,255,.25);
+background:rgba(0,229,255,.08);
+box-shadow:0 0 25px rgba(0,229,255,.08);
 }
 
+/* ======================== */
 /* HERO */
+/* ======================== */
 
 .hero{
 min-height:100vh;
+padding:170px 7% 100px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:160px 7% 100px;
-gap:60px;
+gap:80px;
 }
 
 .hero-left{
-max-width:650px;
+max-width:700px;
 }
 
 .badge{
@@ -126,238 +172,310 @@ align-items:center;
 gap:10px;
 padding:12px 18px;
 border-radius:999px;
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.08);
-margin-bottom:28px;
-color:#cbd5e1;
+border:1px solid rgba(0,229,255,.18);
+background:rgba(0,229,255,.06);
+margin-bottom:30px;
 font-size:14px;
+color:#cbe8ff;
+backdrop-filter:blur(14px);
 }
 
 .hero h1{
-font-size:88px;
-line-height:.95;
+font-size:96px;
+line-height:.92;
 font-weight:900;
 letter-spacing:-5px;
 margin-bottom:28px;
 }
 
 .hero h1 span{
-background:linear-gradient(to right,#60a5fa,#a78bfa);
+background:linear-gradient(to right,#00e5ff,#8b5cf6);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-font-size:19px;
+font-size:20px;
 line-height:1.9;
-color:#94a3b8;
-max-width:580px;
+color:#8fa3bf;
+max-width:620px;
 }
 
 .hero-buttons{
-margin-top:40px;
+margin-top:42px;
 display:flex;
 gap:18px;
 flex-wrap:wrap;
 }
 
 .primary-btn{
-padding:17px 28px;
-border-radius:16px;
-background:linear-gradient(to right,#2563eb,#7c3aed);
+padding:18px 30px;
+border-radius:18px;
+background:linear-gradient(to right,#00e5ff,#8b5cf6);
 text-decoration:none;
 font-weight:700;
 color:white;
-box-shadow:0 0 40px rgba(124,58,237,.35);
-transition:.3s;
+box-shadow:
+0 0 40px rgba(0,229,255,.28),
+0 0 70px rgba(139,92,246,.18);
+transition:.35s;
 }
 
 .primary-btn:hover{
-transform:translateY(-3px);
+transform:translateY(-3px) scale(1.02);
 }
 
 .secondary-btn{
-padding:17px 28px;
-border-radius:16px;
+padding:18px 30px;
+border-radius:18px;
 border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.04);
+background:rgba(255,255,255,.03);
 text-decoration:none;
 color:white;
 transition:.3s;
 }
 
 .secondary-btn:hover{
-background:rgba(255,255,255,.08);
+background:rgba(255,255,255,.06);
 }
 
-/* ROBOT */
+/* ======================== */
+/* CYBER ROBOT */
+/* ======================== */
 
 .hero-right{
-flex:1;
+position:relative;
 display:flex;
 justify-content:center;
-position:relative;
+align-items:center;
 }
 
-.robot-card{
+.robot-wrap{
 position:relative;
 width:520px;
-height:620px;
-border-radius:38px;
+height:650px;
+border-radius:40px;
 overflow:hidden;
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
 box-shadow:
-0 20px 80px rgba(0,0,0,.45),
-0 0 60px rgba(37,99,235,.12);
+0 0 60px rgba(0,229,255,.12),
+0 0 120px rgba(139,92,246,.08),
+0 30px 100px rgba(0,0,0,.5);
 }
 
-.robot-card::before{
+.robot-wrap::before{
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to bottom right,rgba(255,255,255,.08),transparent);
-z-index:1;
+background:
+linear-gradient(
+to bottom right,
+rgba(255,255,255,.08),
+transparent
+);
+z-index:2;
 }
 
-.robot-card img{
+.robot-wrap::after{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+180deg,
+transparent,
+rgba(0,0,0,.2)
+);
+z-index:2;
+}
+
+.robot-wrap img{
 width:100%;
 height:100%;
 object-fit:cover;
+filter:contrast(1.08) saturate(1.1);
 }
 
-/* FLOATING STATS */
+/* FLOATING PANELS */
 
-.floating{
+.panel{
 position:absolute;
-padding:18px 22px;
-border-radius:20px;
-background:rgba(10,15,30,.8);
-border:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(16px);
-box-shadow:0 10px 40px rgba(0,0,0,.3);
+padding:20px 24px;
+border-radius:24px;
+background:rgba(7,12,24,.82);
+border:1px solid rgba(0,229,255,.15);
+backdrop-filter:blur(18px);
+box-shadow:0 10px 50px rgba(0,0,0,.45);
 }
 
-.floating.one{
-top:60px;
-left:-40px;
+.panel.one{
+top:70px;
+left:-50px;
 }
 
-.floating.two{
+.panel.two{
 bottom:80px;
-right:-30px;
+right:-40px;
 }
 
-.floating h3{
-font-size:14px;
-color:#94a3b8;
-margin-bottom:8px;
+.panel h4{
+font-size:13px;
+color:#8fa3bf;
+margin-bottom:10px;
 }
 
-.floating p{
-font-size:30px;
+.panel p{
+font-size:34px;
 font-weight:800;
+background:linear-gradient(to right,#00e5ff,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
+/* ======================== */
 /* FEATURES */
+/* ======================== */
 
 .section{
-padding:0 7% 120px;
+padding:40px 7% 130px;
 }
 
 .section-title{
 max-width:760px;
-margin-bottom:60px;
+margin-bottom:70px;
 }
 
 .section-title h2{
-font-size:64px;
+font-size:72px;
 line-height:1;
 font-weight:900;
-letter-spacing:-3px;
-margin-bottom:20px;
+letter-spacing:-4px;
+margin-bottom:22px;
 }
 
 .section-title p{
-font-size:18px;
-line-height:1.8;
-color:#94a3b8;
+font-size:19px;
+line-height:1.9;
+color:#8fa3bf;
 }
 
 .features{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:24px;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:26px;
 }
 
 .feature{
-padding:34px;
-border-radius:30px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.07);
+padding:36px;
+border-radius:34px;
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.06);
 transition:.35s;
+position:relative;
+overflow:hidden;
 }
 
 .feature:hover{
-transform:translateY(-8px);
-border-color:rgba(96,165,250,.25);
+transform:translateY(-10px);
+border-color:rgba(0,229,255,.22);
+box-shadow:
+0 0 40px rgba(0,229,255,.08);
+}
+
+.feature::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:1px;
+background:linear-gradient(to right,transparent,#00e5ff,transparent);
+opacity:0;
+transition:.3s;
+}
+
+.feature:hover::before{
+opacity:1;
 }
 
 .icon{
-width:70px;
-height:70px;
-border-radius:22px;
-background:linear-gradient(to bottom right,#2563eb,#7c3aed);
+width:74px;
+height:74px;
+border-radius:24px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:30px;
-margin-bottom:24px;
-}
-
-.feature h3{
-font-size:28px;
-margin-bottom:16px;
-}
-
-.feature p{
-color:#94a3b8;
-line-height:1.8;
-}
-
-/* CTA */
-
-.cta{
-padding:0 7% 120px;
-}
-
-.cta-box{
-padding:80px;
-border-radius:40px;
+font-size:32px;
+margin-bottom:26px;
 background:
 linear-gradient(
 135deg,
-rgba(37,99,235,.18),
-rgba(124,58,237,.18)
+rgba(0,229,255,.16),
+rgba(139,92,246,.18)
 );
 border:1px solid rgba(255,255,255,.08);
+box-shadow:
+0 0 30px rgba(0,229,255,.08);
+}
+
+.feature h3{
+font-size:30px;
+margin-bottom:18px;
+}
+
+.feature p{
+line-height:1.9;
+color:#8fa3bf;
+}
+
+/* ======================== */
+/* CTA */
+/* ======================== */
+
+.cta{
+padding:0 7% 130px;
+}
+
+.cta-box{
+padding:90px;
+border-radius:42px;
+background:
+linear-gradient(
+135deg,
+rgba(0,229,255,.08),
+rgba(139,92,246,.12)
+);
+border:1px solid rgba(255,255,255,.07);
 text-align:center;
+position:relative;
+overflow:hidden;
+}
+
+.cta-box::before{
+content:"";
+position:absolute;
+inset:0;
+background:
+radial-gradient(circle at top,#00e5ff18,transparent 40%);
 }
 
 .cta-box h2{
-font-size:72px;
+font-size:78px;
 line-height:1;
 font-weight:900;
-letter-spacing:-3px;
+letter-spacing:-4px;
 margin-bottom:24px;
+position:relative;
 }
 
 .cta-box p{
 max-width:760px;
 margin:auto;
 font-size:20px;
-line-height:1.8;
-color:#cbd5e1;
+line-height:1.9;
+color:#c5d3e5;
+position:relative;
 }
 
 .cta-buttons{
@@ -366,36 +484,42 @@ display:flex;
 justify-content:center;
 gap:18px;
 flex-wrap:wrap;
+position:relative;
 }
 
+/* ======================== */
 /* FOOTER */
+/* ======================== */
 
 footer{
 padding:40px 7%;
-border-top:1px solid rgba(255,255,255,.06);
+border-top:1px solid rgba(255,255,255,.05);
 display:flex;
 justify-content:space-between;
 align-items:center;
 flex-wrap:wrap;
-color:#94a3b8;
+gap:20px;
+color:#7f92ac;
 }
 
+/* ======================== */
 /* MOBILE */
+/* ======================== */
 
 @media(max-width:1100px){
 
 .hero{
 flex-direction:column;
-padding-top:140px;
+padding-top:150px;
 }
 
 .hero h1{
-font-size:62px;
+font-size:68px;
 }
 
-.robot-card{
+.robot-wrap{
 width:100%;
-max-width:500px;
+max-width:520px;
 height:560px;
 }
 
@@ -403,12 +527,24 @@ height:560px;
 display:none;
 }
 
+.section-title h2{
+font-size:52px;
+}
+
+.cta-box h2{
+font-size:54px;
+}
+
 }
 
 @media(max-width:700px){
 
 .hero h1{
-font-size:48px;
+font-size:52px;
+}
+
+.hero p{
+font-size:17px;
 }
 
 .section-title h2{
@@ -416,18 +552,18 @@ font-size:42px;
 }
 
 .cta-box{
-padding:50px 28px;
+padding:55px 28px;
 }
 
 .cta-box h2{
 font-size:42px;
 }
 
-.robot-card{
+.robot-wrap{
 height:480px;
 }
 
-.floating{
+.panel{
 display:none;
 }
 
@@ -440,6 +576,8 @@ display:none;
 
 <div class="bg">
 <div class="grid"></div>
+<div class="glow one"></div>
+<div class="glow two"></div>
 </div>
 
 <!-- NAVBAR -->
@@ -451,16 +589,18 @@ AgentCred
 </div>
 
 <div class="nav-links">
+
 <a href="#">Infrastructure</a>
 <a href="#">Signals</a>
 <a href="#">Developers</a>
-<a href="#">Docs</a>
+<a href="#">Security</a>
 
 <a href="https://farcaster.xyz/derion.eth"
 target="_blank"
 class="fc-btn">
 @derion.eth ↗
 </a>
+
 </div>
 
 </nav>
@@ -472,7 +612,7 @@ class="fc-btn">
 <div class="hero-left">
 
 <div class="badge">
-✦ AI Reputation & Trust Infrastructure
+✦ CYBER TRUST INFRASTRUCTURE
 </div>
 
 <h1>
@@ -481,9 +621,9 @@ for <span>AI Agents</span>
 </h1>
 
 <p>
-AgentCred is a premium credibility infrastructure
-for humans, AI agents, and autonomous systems.
-Built to verify identity, operational proof,
+AgentCred is a cyber-native credibility infrastructure
+for autonomous systems, humans, and AI agents.
+Verify identity, operational proof,
 wallet reputation, and trusted execution
 inside one unified intelligence layer.
 </p>
@@ -506,20 +646,20 @@ View Framework
 
 <div class="hero-right">
 
-<div class="robot-card">
+<div class="robot-wrap">
 
-<img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1400&auto=format&fit=crop"
-alt="AI Robot"/>
+<img src="https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1400&auto=format&fit=crop"
+alt="Cyber Robot">
 
 </div>
 
-<div class="floating one">
-<h3>Trust Score</h3>
+<div class="panel one">
+<h4>TRUST SCORE</h4>
 <p>98/100</p>
 </div>
 
-<div class="floating two">
-<h3>Agent Verified</h3>
+<div class="panel two">
+<h4>AGENT STATUS</h4>
 <p>ACTIVE</p>
 </div>
 
@@ -534,7 +674,8 @@ alt="AI Robot"/>
 <div class="section-title">
 
 <h2>
-Built For The Next Internet
+Built For The<br>
+Cyber Economy
 </h2>
 
 <p>
@@ -609,12 +750,12 @@ and decentralized reputation tracking.
 <div class="cta-box">
 
 <h2>
-The Future of Trust<br>
+Future Trust<br>
 Starts Here
 </h2>
 
 <p>
-AgentCred creates premium credibility infrastructure
+AgentCred creates premium cyber credibility infrastructure
 for humans, AI agents, and autonomous systems.
 </p>
 
