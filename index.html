@@ -1,643 +1,975 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AgentCred — Trust Layer For Humans & AI Agents</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <style>
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      font-family:'Inter',sans-serif;
-      background:#040816;
-      color:white;
-      overflow-x:hidden;
-    }
-
-    a{
-      text-decoration:none;
-      color:inherit;
-    }
-
-    ::selection{
-      background:#7c3aed;
-      color:white;
-    }
-
-    /* BACKGROUND */
-
-    .background{
-      position:fixed;
-      inset:0;
-      z-index:-10;
-      overflow:hidden;
-      background:
-      radial-gradient(circle at top left,#2563eb33,transparent 30%),
-      radial-gradient(circle at bottom right,#7c3aed33,transparent 30%),
-      #040816;
-    }
-
-    .grid{
-      position:absolute;
-      inset:0;
-      background-image:
-      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size:50px 50px;
-      mask-image:linear-gradient(to bottom, rgba(255,255,255,.9), transparent);
-      animation:gridMove 15s linear infinite;
-    }
-
-    @keyframes gridMove{
-      from{
-        transform:translateY(0px);
-      }
-      to{
-        transform:translateY(50px);
-      }
-    }
-
-    .blur{
-      position:absolute;
-      width:650px;
-      height:650px;
-      border-radius:50%;
-      filter:blur(120px);
-      opacity:.25;
-      animation:float 8s ease-in-out infinite;
-    }
-
-    .blur.one{
-      background:#2563eb;
-      top:-250px;
-      left:-200px;
-    }
-
-    .blur.two{
-      background:#7c3aed;
-      bottom:-300px;
-      right:-200px;
-      animation-delay:2s;
-    }
-
-    @keyframes float{
-      0%,100%{
-        transform:translateY(0px);
-      }
-      50%{
-        transform:translateY(40px);
-      }
-    }
-
-    /* NAVBAR */
-
-    nav{
-      position:fixed;
-      top:0;
-      width:100%;
-      padding:24px 8%;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      z-index:100;
-      backdrop-filter:blur(18px);
-      background:rgba(4,8,22,0.55);
-      border-bottom:1px solid rgba(255,255,255,0.06);
-    }
-
-    .logo{
-      font-size:30px;
-      font-weight:900;
-      letter-spacing:-1px;
-      background:linear-gradient(to right,#60a5fa,#a78bfa);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .nav-links{
-      display:flex;
-      align-items:center;
-      gap:30px;
-      color:#cbd5e1;
-      font-size:15px;
-    }
-
-    .nav-links a{
-      transition:.3s;
-    }
-
-    .nav-links a:hover{
-      color:white;
-    }
-
-    .farcaster-btn{
-      padding:12px 20px;
-      border-radius:14px;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.08);
-    }
-
-    .launch-btn{
-      padding:14px 24px;
-      border-radius:14px;
-      background:linear-gradient(to right,#2563eb,#7c3aed);
-      font-weight:600;
-      box-shadow:0 0 35px rgba(124,58,237,.35);
-      transition:.3s;
-    }
-
-    .launch-btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 0 45px rgba(124,58,237,.6);
-    }
-
-    /* HERO */
-
-    .hero{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:180px 8% 100px;
-      position:relative;
-    }
-
-    .hero-content{
-      max-width:1050px;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:12px 20px;
-      border-radius:999px;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.08);
-      color:#cbd5e1;
-      margin-bottom:32px;
-      backdrop-filter:blur(10px);
-    }
-
-    h1{
-      font-size:88px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:-5px;
-      margin-bottom:28px;
-    }
-
-    h1 span{
-      background:linear-gradient(to right,#60a5fa,#a78bfa);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .hero p{
-      max-width:760px;
-      margin:auto;
-      color:#94a3b8;
-      font-size:21px;
-      line-height:1.8;
-    }
-
-    .hero-buttons{
-      margin-top:45px;
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      flex-wrap:wrap;
-    }
-
-    .secondary-btn{
-      padding:14px 24px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
-      color:white;
-      transition:.3s;
-    }
-
-    .secondary-btn:hover{
-      background:rgba(255,255,255,0.08);
-    }
-
-    /* FARCASTER CARD */
-
-    .farcaster-section{
-      padding:0 8% 120px;
-      display:flex;
-      justify-content:center;
-    }
-
-    .farcaster-card{
-      width:100%;
-      max-width:950px;
-      padding:34px;
-      border-radius:32px;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.08);
-      backdrop-filter:blur(18px);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      transition:.35s;
-      overflow:hidden;
-      position:relative;
-    }
-
-    .farcaster-card:hover{
-      transform:translateY(-6px);
-      border-color:rgba(96,165,250,.3);
-      box-shadow:0 0 45px rgba(37,99,235,.15);
-    }
-
-    .farcaster-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to bottom right,rgba(255,255,255,0.06),transparent);
-      opacity:0;
-      transition:.3s;
-    }
-
-    .farcaster-card:hover::before{
-      opacity:1;
-    }
-
-    .small-title{
-      color:#60a5fa;
-      font-size:14px;
-      margin-bottom:10px;
-      letter-spacing:1px;
-    }
-
-    .farcaster-name{
-      font-size:34px;
-      font-weight:800;
-      letter-spacing:-1px;
-    }
-
-    .follow-btn{
-      padding:16px 28px;
-      border-radius:16px;
-      background:linear-gradient(to right,#2563eb,#7c3aed);
-      font-weight:700;
-      transition:.3s;
-      box-shadow:0 0 35px rgba(124,58,237,.35);
-    }
-
-    .follow-btn:hover{
-      transform:scale(1.03);
-    }
-
-    /* SECTION */
-
-    .section-title{
-      text-align:center;
-      padding:20px 8% 50px;
-    }
-
-    .section-title h2{
-      font-size:60px;
-      margin-bottom:18px;
-      letter-spacing:-3px;
-    }
-
-    .section-title p{
-      max-width:760px;
-      margin:auto;
-      color:#94a3b8;
-      line-height:1.8;
-      font-size:18px;
-    }
-
-    /* CARDS */
-
-    .cards{
-      padding:0 8% 130px;
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:24px;
-    }
-
-    .card{
-      padding:34px;
-      border-radius:28px;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.08);
-      backdrop-filter:blur(14px);
-      transition:.35s;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .card:hover{
-      transform:translateY(-8px);
-      border-color:rgba(96,165,250,.3);
-      box-shadow:0 10px 40px rgba(37,99,235,.12);
-    }
-
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to bottom right,rgba(255,255,255,0.05),transparent);
-      opacity:0;
-      transition:.3s;
-    }
-
-    .card:hover::before{
-      opacity:1;
-    }
-
-    .icon{
-      width:62px;
-      height:62px;
-      border-radius:20px;
-      background:linear-gradient(to bottom right,#2563eb,#7c3aed);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:28px;
-      margin-bottom:26px;
-    }
-
-    .card h3{
-      font-size:25px;
-      margin-bottom:16px;
-    }
-
-    .card p{
-      color:#94a3b8;
-      line-height:1.8;
-      font-size:15px;
-    }
-
-    /* FOOTER */
-
-    footer{
-      padding:40px 8%;
-      border-top:1px solid rgba(255,255,255,0.08);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:20px;
-      color:#94a3b8;
-    }
-
-    /* MOBILE */
-
-    @media(max-width:900px){
-
-      h1{
-        font-size:58px;
-      }
-
-      .hero p{
-        font-size:18px;
-      }
-
-      .section-title h2{
-        font-size:42px;
-      }
-
-      .nav-links{
-        display:none;
-      }
-
-      .farcaster-card{
-        flex-direction:column;
-        gap:24px;
-        text-align:center;
-      }
-
-      .farcaster-name{
-        font-size:28px;
-      }
-    }
-
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>AgentCred — Trust Infrastructure</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#030712;
+color:white;
+overflow-x:hidden;
+}
+
+/* ========================= */
+/* BACKGROUND */
+/* ========================= */
+
+.bg{
+position:fixed;
+inset:0;
+z-index:-10;
+background:
+radial-gradient(circle at top left,#2563eb22,transparent 30%),
+radial-gradient(circle at bottom right,#7c3aed22,transparent 30%),
+#030712;
+overflow:hidden;
+}
+
+.grid{
+position:absolute;
+inset:0;
+background-image:
+linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+background-size:55px 55px;
+mask-image:linear-gradient(to bottom, rgba(255,255,255,.8), transparent);
+animation:gridMove 18s linear infinite;
+}
+
+@keyframes gridMove{
+from{
+transform:translateY(0px);
+}
+to{
+transform:translateY(55px);
+}
+}
+
+.glow{
+position:absolute;
+width:700px;
+height:700px;
+border-radius:50%;
+filter:blur(140px);
+opacity:.18;
+animation:float 10s ease-in-out infinite;
+}
+
+.glow.one{
+background:#2563eb;
+top:-250px;
+left:-250px;
+}
+
+.glow.two{
+background:#7c3aed;
+bottom:-250px;
+right:-250px;
+animation-delay:3s;
+}
+
+@keyframes float{
+0%,100%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(50px);
+}
+}
+
+/* ========================= */
+/* NAVBAR */
+/* ========================= */
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+padding:22px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:999;
+backdrop-filter:blur(16px);
+background:rgba(3,7,18,.55);
+border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.logo{
+font-size:30px;
+font-weight:900;
+letter-spacing:-1px;
+background:linear-gradient(to right,#60a5fa,#a78bfa);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.nav-center{
+display:flex;
+gap:36px;
+align-items:center;
+}
+
+.nav-center a{
+text-decoration:none;
+color:#cbd5e1;
+font-size:15px;
+transition:.3s;
+}
+
+.nav-center a:hover{
+color:white;
+}
+
+.nav-right{
+display:flex;
+align-items:center;
+gap:16px;
+}
+
+.farcaster{
+padding:12px 18px;
+border-radius:14px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.06);
+text-decoration:none;
+color:white;
+font-size:14px;
+transition:.3s;
+}
+
+.farcaster:hover{
+background:rgba(255,255,255,.08);
+}
+
+.launch{
+padding:14px 24px;
+border-radius:14px;
+background:linear-gradient(to right,#2563eb,#7c3aed);
+text-decoration:none;
+font-weight:700;
+color:white;
+box-shadow:0 0 35px rgba(124,58,237,.35);
+transition:.3s;
+}
+
+.launch:hover{
+transform:translateY(-2px);
+box-shadow:0 0 45px rgba(124,58,237,.6);
+}
+
+/* ========================= */
+/* HERO */
+/* ========================= */
+
+.hero{
+min-height:100vh;
+padding:180px 7% 120px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:80px;
+}
+
+.hero-left{
+flex:1;
+max-width:760px;
+}
+
+.badge{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:12px 18px;
+border-radius:999px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.07);
+margin-bottom:28px;
+color:#cbd5e1;
+font-size:14px;
+backdrop-filter:blur(12px);
+}
+
+.hero h1{
+font-size:96px;
+line-height:.95;
+font-weight:900;
+letter-spacing:-5px;
+margin-bottom:28px;
+}
+
+.gradient{
+background:linear-gradient(to right,#60a5fa,#a78bfa);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+font-size:20px;
+line-height:1.8;
+color:#94a3b8;
+max-width:650px;
+}
+
+.hero-buttons{
+margin-top:42px;
+display:flex;
+gap:18px;
+flex-wrap:wrap;
+}
+
+.btn-primary{
+padding:16px 28px;
+border-radius:16px;
+background:linear-gradient(to right,#2563eb,#7c3aed);
+font-weight:700;
+text-decoration:none;
+color:white;
+box-shadow:0 0 35px rgba(124,58,237,.35);
+transition:.3s;
+}
+
+.btn-primary:hover{
+transform:translateY(-2px);
+}
+
+.btn-secondary{
+padding:16px 28px;
+border-radius:16px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+text-decoration:none;
+color:white;
+transition:.3s;
+}
+
+.btn-secondary:hover{
+background:rgba(255,255,255,.08);
+}
+
+/* ========================= */
+/* HERO CARD */
+/* ========================= */
+
+.hero-right{
+width:480px;
+}
+
+.dashboard{
+position:relative;
+padding:28px;
+border-radius:34px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+overflow:hidden;
+box-shadow:
+0 10px 60px rgba(0,0,0,.4),
+0 0 40px rgba(37,99,235,.1);
+}
+
+.dashboard::before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(to bottom right,rgba(255,255,255,.08),transparent);
+pointer-events:none;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:28px;
+}
+
+.status{
+display:flex;
+align-items:center;
+gap:10px;
+color:#cbd5e1;
+}
+
+.dot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:#22c55e;
+box-shadow:0 0 15px #22c55e;
+}
+
+.score-card{
+padding:28px;
+border-radius:24px;
+background:linear-gradient(
+135deg,
+rgba(37,99,235,.25),
+rgba(124,58,237,.18)
+);
+border:1px solid rgba(255,255,255,.08);
+margin-bottom:22px;
+}
+
+.score-title{
+font-size:14px;
+color:#cbd5e1;
+margin-bottom:10px;
+}
+
+.score{
+font-size:68px;
+font-weight:900;
+letter-spacing:-3px;
+}
+
+.trust{
+display:flex;
+justify-content:space-between;
+margin-top:18px;
+color:#cbd5e1;
+}
+
+.signal-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+margin-top:20px;
+}
+
+.signal{
+padding:18px;
+border-radius:18px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.06);
+}
+
+.signal h4{
+font-size:14px;
+margin-bottom:10px;
+color:#cbd5e1;
+}
+
+.signal p{
+font-size:26px;
+font-weight:800;
+}
+
+/* ========================= */
+/* LOGOS */
+/* ========================= */
+
+.logos{
+padding:40px 7% 120px;
+overflow:hidden;
+}
+
+.logo-track{
+display:flex;
+gap:80px;
+white-space:nowrap;
+animation:slide 20s linear infinite;
+opacity:.7;
+}
+
+.logo-track span{
+font-size:34px;
+font-weight:800;
+color:#475569;
+}
+
+@keyframes slide{
+from{
+transform:translateX(0);
+}
+to{
+transform:translateX(-50%);
+}
+}
+
+/* ========================= */
+/* FEATURES */
+/* ========================= */
+
+.section{
+padding:40px 7% 130px;
+}
+
+.section-header{
+max-width:760px;
+margin-bottom:60px;
+}
+
+.section-header h2{
+font-size:68px;
+line-height:1;
+font-weight:900;
+letter-spacing:-3px;
+margin-bottom:22px;
+}
+
+.section-header p{
+font-size:19px;
+line-height:1.8;
+color:#94a3b8;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:26px;
+}
+
+.feature{
+padding:34px;
+border-radius:30px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.07);
+transition:.35s;
+position:relative;
+overflow:hidden;
+}
+
+.feature:hover{
+transform:translateY(-8px);
+border-color:rgba(96,165,250,.25);
+box-shadow:0 15px 50px rgba(37,99,235,.12);
+}
+
+.feature::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to bottom right,rgba(255,255,255,.06),transparent);
+opacity:0;
+transition:.3s;
+}
+
+.feature:hover::before{
+opacity:1;
+}
+
+.icon{
+width:70px;
+height:70px;
+border-radius:22px;
+background:linear-gradient(to bottom right,#2563eb,#7c3aed);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+margin-bottom:26px;
+box-shadow:0 0 30px rgba(124,58,237,.3);
+}
+
+.feature h3{
+font-size:28px;
+margin-bottom:16px;
+}
+
+.feature p{
+line-height:1.8;
+color:#94a3b8;
+}
+
+/* ========================= */
+/* CTA */
+/* ========================= */
+
+.cta{
+padding:0 7% 120px;
+}
+
+.cta-box{
+padding:70px;
+border-radius:40px;
+background:
+linear-gradient(
+135deg,
+rgba(37,99,235,.18),
+rgba(124,58,237,.18)
+);
+border:1px solid rgba(255,255,255,.08);
+text-align:center;
+position:relative;
+overflow:hidden;
+}
+
+.cta-box h2{
+font-size:72px;
+line-height:1;
+font-weight:900;
+letter-spacing:-3px;
+margin-bottom:22px;
+}
+
+.cta-box p{
+font-size:20px;
+line-height:1.8;
+color:#cbd5e1;
+max-width:760px;
+margin:auto;
+}
+
+.cta-buttons{
+margin-top:40px;
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
+footer{
+padding:40px 7%;
+border-top:1px solid rgba(255,255,255,.06);
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+color:#94a3b8;
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media(max-width:1100px){
+
+.hero{
+flex-direction:column;
+padding-top:150px;
+}
+
+.hero h1{
+font-size:70px;
+}
+
+.hero-right{
+width:100%;
+max-width:520px;
+}
+
+.section-header h2{
+font-size:52px;
+}
+
+.cta-box h2{
+font-size:52px;
+}
+
+.nav-center{
+display:none;
+}
+
+}
+
+@media(max-width:700px){
+
+.hero h1{
+font-size:54px;
+}
+
+.hero p{
+font-size:17px;
+}
+
+.section-header h2{
+font-size:40px;
+}
+
+.cta-box{
+padding:45px 28px;
+}
+
+.cta-box h2{
+font-size:40px;
+}
+
+.dashboard{
+padding:20px;
+}
+
+.score{
+font-size:52px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-  <div class="background">
-    <div class="grid"></div>
-    <div class="blur one"></div>
-    <div class="blur two"></div>
-  </div>
+<div class="bg">
+<div class="grid"></div>
+<div class="glow one"></div>
+<div class="glow two"></div>
+</div>
 
-  <!-- NAVBAR -->
+<!-- NAV -->
 
-  <nav>
+<nav>
 
-    <div class="logo">
-      AgentCred
-    </div>
+<div class="logo">
+AgentCred
+</div>
 
-    <div class="nav-links">
-      <a href="#">Features</a>
-      <a href="#">Signals</a>
-      <a href="#">Framework</a>
-      <a href="#">Docs</a>
+<div class="nav-center">
+<a href="#">Framework</a>
+<a href="#">Signals</a>
+<a href="#">Infrastructure</a>
+<a href="#">Developers</a>
+<a href="#">Docs</a>
+</div>
 
-      <a class="farcaster-btn"
-         href="https://farcaster.xyz/derion.eth"
-         target="_blank">
-        @derion.eth ↗
-      </a>
-    </div>
+<div class="nav-right">
 
-    <a href="#" class="launch-btn">
-      Launch App
-    </a>
+<a href="https://farcaster.xyz/derion.eth"
+target="_blank"
+class="farcaster">
+@derion.eth ↗
+</a>
 
-  </nav>
+<a href="#" class="launch">
+Launch App
+</a>
 
-  <!-- HERO -->
+</div>
 
-  <section class="hero">
+</nav>
 
-    <div class="hero-content">
+<!-- HERO -->
 
-      <div class="badge">
-        ✦ Human + Agent Credibility Infrastructure
-      </div>
+<section class="hero">
 
-      <h1>
-        Trust Signals<br>
-        for the <span>Agent Economy</span>
-      </h1>
+<div class="hero-left">
 
-      <p>
-        AgentCred is a next-generation credibility layer
-        connecting identity, operational proof,
-        and onchain reputation for humans,
-        AI agents, and autonomous systems.
-      </p>
+<div class="badge">
+✦ Human + Agent Credibility Infrastructure
+</div>
 
-      <div class="hero-buttons">
+<h1>
+Trust Layer<br>
+for the <span class="gradient">Agent Economy</span>
+</h1>
 
-        <a href="#" class="launch-btn">
-          Get Started
-        </a>
+<p>
+AgentCred is a premium trust infrastructure
+designed for AI agents, humans, autonomous systems,
+and onchain organizations.
+Verify identity, operational proof,
+wallet credibility, and reputation
+inside one unified intelligence layer.
+</p>
 
-        <a href="#" class="secondary-btn">
-          View Framework
-        </a>
+<div class="hero-buttons">
 
-      </div>
+<a href="#" class="btn-primary">
+Get Started
+</a>
 
-    </div>
+<a href="#" class="btn-secondary">
+View Framework
+</a>
 
-  </section>
+</div>
 
-  <!-- FARCASTER -->
+</div>
 
-  <section class="farcaster-section">
+<div class="hero-right">
 
-    <a href="https://farcaster.xyz/derion.eth"
-       target="_blank"
-       class="farcaster-card">
+<div class="dashboard">
 
-      <div>
+<div class="topbar">
 
-        <div class="small-title">
-          OFFICIAL FARCASTER
-        </div>
+<div class="status">
+<div class="dot"></div>
+Agent Active
+</div>
 
-        <div class="farcaster-name">
-          @derion.eth
-        </div>
+<div style="color:#94a3b8;">
+Live Credibility
+</div>
 
-      </div>
+</div>
 
-      <div class="follow-btn">
-        Follow ↗
-      </div>
+<div class="score-card">
 
-    </a>
+<div class="score-title">
+TRUST SCORE
+</div>
 
-  </section>
+<div class="score">
+98<span style="font-size:28px;">/100</span>
+</div>
 
-  <!-- SECTION TITLE -->
+<div class="trust">
+<span>Human Identity</span>
+<span>Verified</span>
+</div>
 
-  <div class="section-title">
+</div>
 
-    <h2>
-      Built For Human & AI Trust
-    </h2>
+<div class="signal-grid">
 
-    <p>
-      Identity credibility meets operational credibility.
-      AgentCred creates transparent trust systems
-      for the future internet and autonomous economies.
-    </p>
+<div class="signal">
+<h4>Wallet Trust</h4>
+<p>94%</p>
+</div>
 
-  </div>
+<div class="signal">
+<h4>API Uptime</h4>
+<p>99%</p>
+</div>
 
-  <!-- CARDS -->
+<div class="signal">
+<h4>Onchain Proof</h4>
+<p>87%</p>
+</div>
 
-  <section class="cards">
+<div class="signal">
+<h4>Agent Logs</h4>
+<p>12K</p>
+</div>
 
-    <div class="card">
-      <div class="icon">👤</div>
+</div>
 
-      <h3>Identity Layer</h3>
+</div>
 
-      <p>
-        ENS profiles, social verification,
-        wallet history, ownership proof,
-        and public reputation systems.
-      </p>
-    </div>
+</div>
 
-    <div class="card">
-      <div class="icon">⚡</div>
+</section>
 
-      <h3>Operational Proof</h3>
+<!-- LOGOS -->
 
-      <p>
-        Benchmark runs, API activity,
-        uptime metrics, and autonomous execution history.
-      </p>
-    </div>
+<section class="logos">
 
-    <div class="card">
-      <div class="icon">🔗</div>
+<div class="logo-track">
+<span>ONCHAIN</span>
+<span>AI AGENTS</span>
+<span>IDENTITY</span>
+<span>CREDIBILITY</span>
+<span>REPUTATION</span>
+<span>AUTONOMOUS</span>
+<span>INFRASTRUCTURE</span>
+<span>TRUST LAYER</span>
 
-      <h3>Onchain Signals</h3>
+<span>ONCHAIN</span>
+<span>AI AGENTS</span>
+<span>IDENTITY</span>
+<span>CREDIBILITY</span>
+<span>REPUTATION</span>
+<span>AUTONOMOUS</span>
+<span>INFRASTRUCTURE</span>
+<span>TRUST LAYER</span>
+</div>
 
-      <p>
-        Wallet reputation, settlement history,
-        staking proof, and transparent payment records.
-      </p>
-    </div>
+</section>
 
-    <div class="card">
-      <div class="icon">🛡️</div>
+<!-- FEATURES -->
 
-      <h3>Security Trust</h3>
+<section class="section">
 
-      <p>
-        Safe ownership, multisig transparency,
-        signer verification, and trusted access systems.
-      </p>
-    </div>
+<div class="section-header">
 
-    <div class="card">
-      <div class="icon">📊</div>
+<h2>
+Built for Internet-Scale Trust
+</h2>
 
-      <h3>Work Evidence</h3>
+<p>
+Identity credibility meets operational credibility.
+AgentCred powers the next generation
+of human-agent coordination and autonomous economies.
+</p>
 
-      <p>
-        Public work logs, endorsements,
-        technical contributions, and benchmark credibility.
-      </p>
-    </div>
+</div>
 
-    <div class="card">
-      <div class="icon">🚀</div>
+<div class="features">
 
-      <h3>Future Ready</h3>
+<div class="feature">
 
-      <p>
-        Built for autonomous AI agents,
-        decentralized coordination,
-        and internet-native trust economies.
-      </p>
-    </div>
+<div class="icon">
+👤
+</div>
 
-  </section>
+<h3>
+Identity Layer
+</h3>
 
-  <!-- FOOTER -->
+<p>
+ENS profiles, social verification,
+wallet ownership, team reputation,
+and identity-linked trust systems.
+</p>
 
-  <footer>
+</div>
 
-    <div>
-      © 2026 AgentCred — Trust Infrastructure For The Agent Economy
-    </div>
+<div class="feature">
 
-    <div>
-      Built by @derion.eth
-    </div>
+<div class="icon">
+⚡
+</div>
 
-  </footer>
+<h3>
+Operational Proof
+</h3>
+
+<p>
+API uptime, benchmark runs,
+execution logs, autonomous workflows,
+and transparent system performance.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="icon">
+🔗
+</div>
+
+<h3>
+Onchain Signals
+</h3>
+
+<p>
+Wallet settlement history,
+payment credibility, staking behavior,
+and decentralized reputation tracking.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="icon">
+🛡️
+</div>
+
+<h3>
+Security Trust
+</h3>
+
+<p>
+Safe ownership, multisig verification,
+signed access systems,
+and trusted authorization layers.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="icon">
+📊
+</div>
+
+<h3>
+Work Evidence
+</h3>
+
+<p>
+Public work logs, benchmark evidence,
+technical contribution records,
+and transparent credibility history.
+</p>
+
+</div>
+
+<div class="feature">
+
+<div class="icon">
+🚀
+</div>
+
+<h3>
+Future Ready
+</h3>
+
+<p>
+Designed for autonomous agents,
+AI-native coordination,
+and the next evolution of digital trust.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+<div class="cta-box">
+
+<h2>
+The Future of Trust<br>
+Starts Here
+</h2>
+
+<p>
+AgentCred creates credibility infrastructure
+for humans, AI agents, and autonomous systems.
+Build transparent trust layers
+for the next internet economy.
+</p>
+
+<div class="cta-buttons">
+
+<a href="#" class="btn-primary">
+Launch Platform
+</a>
+
+<a href="https://farcaster.xyz/derion.eth"
+target="_blank"
+class="btn-secondary">
+Follow @derion.eth
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+<div>
+© 2026 AgentCred — Trust Infrastructure
+</div>
+
+<div>
+Built by @derion.eth
+</div>
+
+</footer>
 
 </body>
 </html>
